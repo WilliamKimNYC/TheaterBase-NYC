@@ -464,7 +464,7 @@ def home():
     featured_ids = ["Metrograph", "Film-Forum", "IFC-Center"]
     popular_theaters = [theaters[t_id] for t_id in featured_ids]
 
-    return render_template('home.html', popular_theaters=popular_theaters)
+    return render_template('index.html', popular_theaters=popular_theaters)
 
 @app.route('/search')
 def search():
