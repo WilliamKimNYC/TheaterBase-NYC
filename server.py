@@ -1,14 +1,9 @@
 # William Kim WNK2103
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-import os
-from dotenv import load_dotenv
+import os  # Add this at the top with other imports
 
-load_dotenv()  # Add this near the top of server.py
 
 app = Flask(__name__)
-
-# Get API key from environment variable
-MAPS_KEY = os.environ.get('GOOGLEMAPSKEY')
 
 theaters = {
     "Metrograph": {
@@ -464,7 +459,7 @@ def home():
     featured_ids = ["Metrograph", "Film-Forum", "IFC-Center"]
     popular_theaters = [theaters[t_id] for t_id in featured_ids]
 
-    return render_template('index.html', popular_theaters=popular_theaters)
+    return render_template('home.html', popular_theaters=popular_theaters)
 
 @app.route('/search')
 def search():
@@ -511,7 +506,7 @@ def view_theater(theater_id):
     return render_template('view.html',
                          theater=theater_data,
                          nearby_theaters=nearby_theaters,
-                         maps_key=MAPS_KEY)
+                         GOOGLEMAPSKEY=os.environ.get('GOOGLEMAPSKEY'))
 
 @app.route('/add', methods=['GET', 'POST'])
 def add_theater():
