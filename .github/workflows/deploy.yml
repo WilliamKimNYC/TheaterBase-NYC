@@ -67,6 +67,10 @@ jobs:
             exit 1
           fi
           
+      - name: Fix file permissions
+        run: |
+          chmod -R 755 static_site
+          
   deploy:
     needs: build
     runs-on: ubuntu-latest

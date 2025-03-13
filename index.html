@@ -29,12 +29,28 @@
         a:hover {
             text-decoration: underline;
         }
+        .fallback {
+            display: none;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .fallback {
+                display: block;
+            }
+        }
     </style>
+    <script>
+        // Fallback for browsers that don't support meta refresh
+        window.onload = function() {
+            setTimeout(function() {
+                window.location.href = '/home.html';
+            }, 1000);
+        };
+    </script>
 </head>
 <body>
     <div class="redirect-message">
         <h1>Redirecting to TheaterBase-NYC...</h1>
-        <p>If you are not redirected automatically, <a href="/home.html">click here</a>.</p>
+        <p class="fallback">If you are not redirected automatically, <a href="/home.html">click here</a>.</p>
     </div>
 </body>
 </html> 

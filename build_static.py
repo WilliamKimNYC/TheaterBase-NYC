@@ -37,8 +37,9 @@ def generate_static_site():
         autoescape=True
     )
     
-    # Add config to templates
+    # Add config and url_for to templates
     env.globals['config'] = app.config
+    env.globals['url_for'] = lambda endpoint, **kwargs: f"/{endpoint}.html" if endpoint != 'static' else f"/static/{kwargs.get('filename', '')}"
     
     # Generate home page
     print("Generating home page...")
