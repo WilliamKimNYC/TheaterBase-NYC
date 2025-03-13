@@ -1,103 +1,81 @@
-from flask import Flask, url_for
-from flask_frozen import Freezer
-from server import app
 import os
-import sys
 import shutil
-import traceback
-
-# Create a new Flask app instance
-static_app = Flask(__name__)
-
-# Copy configuration from main app
-static_app.config.update(app.config)
-
-# Copy routes from the main app
-print("Copying routes from main app...")
-for rule in app.url_map.iter_rules():
-    print(f"Adding route: {rule.rule}")
-    static_app.add_url_rule(rule.rule, view_func=app.view_functions[rule.endpoint])
-
-# Create freezer with custom URL generator
-freezer = Freezer(static_app)
-
-# Set the base URL for static files
-static_app.config['FREEZER_BASE_URL'] = 'https://wnskim.github.io/TheaterBase-NYC/'
-static_app.config['FREEZER_DESTINATION'] = 'static_site'
-static_app.config['FREEZER_RELATIVE_URLS'] = True
+import sys
+from jinja2 import Environment, FileSystemLoader
+from server import app, theaters
 
 def ensure_directories():
     """Ensure all necessary directories exist"""
-    print("\nEnsuring directories exist...")
     directories = ['static_site', 'static_site/static', 'static_site/Media']
     for directory in directories:
         if not os.path.exists(directory):
             os.makedirs(directory)
             print(f"Created directory: {directory}")
-        else:
-            print(f"Directory exists: {directory}")
 
 def copy_static_files():
     """Copy static files to the build directory"""
-    print("\nCopying static files...")
     # Copy static files
     if os.path.exists('static'):
-        print("Copying static directory...")
-        for item in os.listdir('static'):
-            s = os.path.join('static', item)
-            d = os.path.join('static_site/static', item)
-            try:
-                if os.path.isfile(s):
-                    shutil.copy2(s, d)
-                    print(f"Copied file: {item}")
-                elif os.path.isdir(s):
-                    shutil.copytree(s, d, dirs_exist_ok=True)
-                    print(f"Copied directory: {item}")
-            except Exception as e:
-                print(f"Error copying {item}: {str(e)}")
-    else:
-        print("Warning: static directory not found")
+        print("Copying static files...")
+        shutil.copytree('static', 'static_site/static', dirs_exist_ok=True)
     
     # Copy Media files
     if os.path.exists('Media'):
-        print("\nCopying Media directory...")
-        for item in os.listdir('Media'):
-            s = os.path.join('Media', item)
-            d = os.path.join('static_site/Media', item)
-            try:
-                if os.path.isfile(s):
-                    shutil.copy2(s, d)
-                    print(f"Copied file: {item}")
-                elif os.path.isdir(s):
-                    shutil.copytree(s, d, dirs_exist_ok=True)
-                    print(f"Copied directory: {item}")
-            except Exception as e:
-                print(f"Error copying {item}: {str(e)}")
-    else:
-        print("Warning: Media directory not found")
+        print("Copying Media files...")
+        shutil.copytree('Media', 'static_site/Media', dirs_exist_ok=True)
     
     # Copy index.html
     if os.path.exists('index.html'):
-        print("\nCopying index.html...")
-        try:
-            shutil.copy2('index.html', 'static_site/')
-            print("Copied index.html successfully")
-        except Exception as e:
-            print(f"Error copying index.html: {str(e)}")
-    else:
-        print("Warning: index.html not found")
+        print("Copying index.html...")
+        shutil.copy2('index.html', 'static_site/')
 
-def update_urls():
-    """Update URLs in the theater data to use relative paths"""
-    print("\nUpdating URLs...")
-    for theater_id, theater_data in app.config['theaters'].items():
-        print(f"Processing theater: {theater_id}")
-        if theater_data.get('banner'):
-            theater_data['banner'] = theater_data['banner'].replace('https://wnskim.github.io/TheaterBase-NYC/', '/')
-            print(f"Updated banner URL for {theater_id}")
-        if theater_data.get('image'):
-            theater_data['image'] = theater_data['image'].replace('https://wnskim.github.io/TheaterBase-NYC/', '/')
-            print(f"Updated image URL for {theater_id}")
+def generate_static_site():
+    """Generate static HTML files from templates"""
+    # Set up Jinja2 environment
+    env = Environment(
+        loader=FileSystemLoader('templates'),
+        autoescape=True
+    )
+    
+    # Add config to templates
+    env.globals['config'] = app.config
+    
+    # Generate home page
+    print("Generating home page...")
+    home_template = env.get_template('home.html')
+    featured_ids = ["Metrograph", "Film-Forum", "IFC-Center"]
+    popular_theaters = [theaters[t_id] for t_id in featured_ids]
+    with open('static_site/home.html', 'w') as f:
+        f.write(home_template.render(popular_theaters=popular_theaters))
+    
+    # Generate theater pages
+    print("Generating theater pages...")
+    view_template = env.get_template('view.html')
+    for theater_id, theater_data in theaters.items():
+        print(f"Generating page for {theater_id}...")
+        # Get nearby theaters' full data
+        nearby_theaters = []
+        for nearby_id in theater_data["nearby theater ids"]:
+            if nearby_id in theaters:
+                nearby_theaters.append(theaters[nearby_id])
+        
+        # Create directory for theater if it doesn't exist
+        theater_dir = os.path.join('static_site', theater_id)
+        if not os.path.exists(theater_dir):
+            os.makedirs(theater_dir)
+        
+        # Generate the page
+        with open(os.path.join(theater_dir, 'index.html'), 'w') as f:
+            f.write(view_template.render(
+                theater=theater_data,
+                nearby_theaters=nearby_theaters
+            ))
+    
+    # Generate search page
+    print("Generating search page...")
+    search_template = env.get_template('search.html')
+    with open('static_site/search.html', 'w') as f:
+        f.write(search_template.render(query="", results=[]))
 
 if __name__ == '__main__':
     try:
@@ -108,15 +86,11 @@ if __name__ == '__main__':
         # Ensure directories exist
         ensure_directories()
         
-        # Update URLs to use relative paths
-        update_urls()
-        
-        # Copy static files first
+        # Copy static files
         copy_static_files()
         
-        print("\nBuilding static site...")
-        # Build the static site
-        freezer.freeze()
+        # Generate static site
+        generate_static_site()
         
         print("\nStatic site built successfully!")
         print("\nContents of static_site directory:")
@@ -131,5 +105,6 @@ if __name__ == '__main__':
     except Exception as e:
         print(f"\nError building static site: {str(e)}", file=sys.stderr)
         print("\nFull traceback:", file=sys.stderr)
+        import traceback
         traceback.print_exc(file=sys.stderr)
         sys.exit(1) 
