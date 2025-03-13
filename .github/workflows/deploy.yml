@@ -10,6 +10,10 @@ permissions:
   pages: write
   id-token: write
 
+env:
+  GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+  SECRET_KEY: ${{ secrets.SECRET_KEY }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
