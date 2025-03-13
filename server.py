@@ -9,9 +9,9 @@ theaters = {
     "Metrograph": {
         "id": "Metrograph",
         "name": "Metrograph",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/Metrograph/Banner.png",
+        "banner": "/Media/Metrograph/Banner.png",
         "banner_alt": "Banner Image: In the Mood for Love (200)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/Metrograph/Main.png",
+        "image": "/Media/Metrograph/Main.png",
         "image_alt": "Interior of Metrograph theater",
         "description": (
             "Metrograph offers a curated selection of art-house and classic films. "
@@ -29,9 +29,9 @@ theaters = {
     "Film-Forum": {
         "id": "Film-Forum",
         "name": "Film Forum",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/Film-Forum/Banner.png",
+        "banner": "/Media/Film-Forum/Banner.png",
         "banner_alt": "Banner Image: Play it as it Lays (1972)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/Film-Forum/Main.png",
+        "image": "/Media/Film-Forum/Main.png",
         "image_alt": "Exterior of Film Forum at night",
         "description": (
             "Film Forum is known for independent premieres and repertory programs. "
@@ -49,9 +49,9 @@ theaters = {
     "Angelika-Film-Center": {
         "id": "Angelika-Film-Center",
         "name": "Angelika Film Center",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/Angelika-Film-Center/Banner.png",
+        "banner": "/Media/Angelika-Film-Center/Banner.png",
         "banner_alt": "Banner Image: Anora (2024)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/Angelika-Film-Center/Main.png",
+        "image": "/Media/Angelika-Film-Center/Main.png",
         "image_alt": "Exterior of Angelika Film Center",
         "description": (
             "Angelika Film Center is a hub for indie flicks and buzzy festival hits. "
@@ -69,9 +69,9 @@ theaters = {
     "IFC-Center": {
         "id": "IFC-Center",
         "name": "IFC Center",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/IFC-Center/Banner.png",
+        "banner": "/Media/IFC-Center/Banner.png",
         "banner_alt": "Banner Image: Love and Pop (1998)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/IFC-Center/Main.png",
+        "image": "/Media/IFC-Center/Main.png",
         "image_alt": "Exterior of IFC Center at night",
         "description": (
             "IFC Center is a Greenwich Village staple for cutting-edge cinema. "
@@ -89,9 +89,9 @@ theaters = {
     "Quad-Cinema": {
         "id": "Quad-Cinema",
         "name": "Quad Cinema",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/Quad-Cinema/Banner.png",
+        "banner": "/Media/Quad-Cinema/Banner.png",
         "banner_alt": "Banner Image: The Lady (2011)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/Quad-Cinema/Main.png",
+        "image": "/Media/Quad-Cinema/Main.png",
         "image_alt": "Exterior of QUAD Cinema",
         "description": (
             "Quad Cinema offers a boutique atmosphere with four screens. "
@@ -109,9 +109,9 @@ theaters = {
     "Nitehawk-Cinema": {
         "id": "Nitehawk-Cinema",
         "name": "Nitehawk Cinema",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/Nitehawk-Cinema/Banner.png",
+        "banner": "/Media/Nitehawk-Cinema/Banner.png",
         "banner_alt": "Banner Image: Mickey 17 (2025)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/Nitehawk-Cinema/Main.png",
+        "image": "/Media/Nitehawk-Cinema/Main.png",
         "image_alt": "Interior of a theater at Nitehawk Cinema",
         "description": (
             "Nitehawk Cinema pioneered the dine-in indie theater model in NYC. "
@@ -129,9 +129,9 @@ theaters = {
     "Roxy-Cinema": {
         "id": "Roxy-Cinema",
         "name": "Roxy Cinema",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/Roxy-Cinema/Banner.png",
+        "banner": "/Media/Roxy-Cinema/Banner.png",
         "banner_alt": "Banner Image: Shadows (1958)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/Roxy-Cinema/Main.png",
+        "image": "/Media/Roxy-Cinema/Main.png",
         "image_alt": "Interior of a theater at Roxy Cinema",
         "description": (
             "Located in the Roxy Hotel, this cinema exudes a luxurious, vintage vibe. "
@@ -149,9 +149,9 @@ theaters = {
     "Alamo-Drafthouse-Brooklyn": {
         "id": "Alamo-Drafthouse-Brooklyn",
         "name": "Alamo Drafthouse Brooklyn",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/Alamo-Drafthouse-Brooklyn/Banner.png",
+        "banner": "/Media/Alamo-Drafthouse-Brooklyn/Banner.png",
         "banner_alt": "Banner Image: Marie Antoinete (2006)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/Alamo-Drafthouse-Brooklyn/Main.png",
+        "image": "/Media/Alamo-Drafthouse-Brooklyn/Main.png",
         "image_alt": "Interior of an Alamo Drafthouse Brooklyn Theater",
         "description": (
             "Alamo Drafthouse is famed for strict no-talking/no-texting policies. "
@@ -169,9 +169,9 @@ theaters = {
     "Village-East-by-Angelika": {
         "id": "Village-East-by-Angelika",
         "name": "Village East by Angelika",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/Village-East-by-Angelika/Banner.png",
+        "banner": "/Media/Village-East-by-Angelika/Banner.png",
         "banner_alt": "Banner Image: Look Back (2024)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/Village-East-by-Angelika/Main.png",
+        "image": "/Media/Village-East-by-Angelika/Main.png",
         "image_alt": "Interior of a theater in Village East by Angelika",
         "description": (
             "Housed in a historic Moorish Revival building, Village East is a landmark. "
@@ -189,9 +189,9 @@ theaters = {
     "The-Paris-Theater": {
         "id": "The-Paris-Theater",
         "name": "The Paris Theater",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/The-Paris-Theater/Banner.png",
+        "banner": "/Media/The-Paris-Theater/Banner.png",
         "banner_alt": "Banner Image: Ran (1985)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/The-Paris-Theater/Main.png",
+        "image": "/Media/The-Paris-Theater/Main.png",
         "image_alt": "Exterior of The Paris Theater at night",
         "description": (
             "The Paris Theater is one of the few remaining single-screen theaters in Manhattan. "
@@ -209,9 +209,9 @@ theaters = {
     "Film-at-Lincoln-Center": {
         "id": "Film-at-Lincoln-Center",
         "name": "Film at Lincoln Center",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/Film-at-Lincoln-Center/Banner.png",
+        "banner": "/Media/Film-at-Lincoln-Center/Banner.png",
         "banner_alt": "Banner Image: Winter in Sokcho (2024)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/Film-at-Lincoln-Center/Main.png",
+        "image": "/Media/Film-at-Lincoln-Center/Main.png",
         "image_alt": "Film at Lincoln Center Logo",
         "description": (
             "A cultural landmark dedicated to supporting the art and craft of cinema. "
@@ -229,9 +229,9 @@ theaters = {
     "Museum-of-Modern-Art": {
         "id": "Museum-of-Modern-Art",
         "name": "Museum of Modern Art (MoMA)",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/Museum-of-Modern-Art/Banner.png",
+        "banner": "/Media/Museum-of-Modern-Art/Banner.png",
         "banner_alt": "Banner Image: The Falling Sky (2024)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/Museum-of-Modern-Art/Main.png",
+        "image": "/Media/Museum-of-Modern-Art/Main.png",
         "image_alt": "Interior of a theater at MoMA",
         "description": (
             "World-renowned museum with dedicated film programming. "
@@ -249,9 +249,9 @@ theaters = {
     "Nitehawk-Prospect-Park": {
         "id": "Nitehawk-Prospect-Park",
         "name": "Nitehawk Cinema - Prospect Park",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/Nitehawk-Prospect-Park/Banner.png",
+        "banner": "/Media/Nitehawk-Prospect-Park/Banner.png",
         "banner_alt": "Banner Image: The Original Kings of Comedy (2000)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/Nitehawk-Prospect-Park/Main.png",
+        "image": "/Media/Nitehawk-Prospect-Park/Main.png",
         "image_alt": "Exterior of Nitehawk Cinema Prospect Park at night",
         "description": (
             "Historic theater renovated into a modern dine-in cinema. "
@@ -269,9 +269,9 @@ theaters = {
     "Angelika-Cinema-123": {
         "id": "Angelika-Cinema-123",
         "name": "Angelika - Cinema 123",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/Angelika-Cinema-123/Banner.png",
+        "banner": "/Media/Angelika-Cinema-123/Banner.png",
         "banner_alt": "Banner Image: Winchester '73 (1950)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/Angelika-Cinema-123/Main.png",
+        "image": "/Media/Angelika-Cinema-123/Main.png",
         "image_alt": "Exterior of Cinama 123 by Angelika",
         "description": (
             "Luxury cinema on the Upper East Side. "
@@ -289,9 +289,9 @@ theaters = {
     "Museum-of-the-Moving-Image": {
         "id": "Museum-of-the-Moving-Image",
         "name": "Museum of the Moving Image",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/Museum-of-the-Moving-Image/Banner.png",
+        "banner": "/Media/Museum-of-the-Moving-Image/Banner.png",
         "banner_alt": "Banner Image: Bonjour Tristesse (2024)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/Museum-of-the-Moving-Image/Main.png",
+        "image": "/Media/Museum-of-the-Moving-Image/Main.png",
         "image_alt": "Interior of a theater at Museum of the Moving Image",
         "description": (
             "Dedicated to the art, history, and technology of film and media. "
@@ -309,9 +309,9 @@ theaters = {
     "Syndicated": {
         "id": "Syndicated",
         "name": "Syndicated",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/Syndicated/Banner.png",
+        "banner": "/Media/Syndicated/Banner.png",
         "banner_alt": "Banner Image: The Room Next Door (2024)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/Syndicated/Main.png",
+        "image": "/Media/Syndicated/Main.png",
         "image_alt": "Interior of Syndicated Theater",
         "description": (
             "Unique combination of cinema, bar, and restaurant. "
@@ -329,9 +329,9 @@ theaters = {
     "BAM-Rose-Cinemas": {
         "id": "BAM-Rose-Cinemas",
         "name": "BAM Rose Cinemas",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/BAM-Rose-Cinemas/Banner.png",
+        "banner": "/Media/BAM-Rose-Cinemas/Banner.png",
         "banner_alt": "Banner Image: Us and the Night (2024)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/BAM-Rose-Cinemas/Main.png",
+        "image": "/Media/BAM-Rose-Cinemas/Main.png",
         "image_alt": "Interior showing theater seating",
         "description": (
             "Part of the Brooklyn Academy of Music's cultural complex. "
@@ -349,9 +349,9 @@ theaters = {
     "Cinema-Village": {
         "id": "Cinema-Village",
         "name": "Cinema Village",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/Cinema-Village/Banner.png",
+        "banner": "/Media/Cinema-Village/Banner.png",
         "banner_alt": "Banner Image: Flow (2024)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/Cinema-Village/Main.png",
+        "image": "/Media/Cinema-Village/Main.png",
         "image_alt": "Exterior of Cinema Village",
         "description": (
             "One of New York's oldest continuously operating art houses. "
@@ -369,9 +369,9 @@ theaters = {
     "Alamo-Drafthouse-Manhattan": {
         "id": "Alamo-Drafthouse-Manhattan",
         "name": "Alamo Drafthouse - Lower Manhattan",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/Alamo-Drafthouse-Manhattan/Banner.png",
+        "banner": "/Media/Alamo-Drafthouse-Manhattan/Banner.png",
         "banner_alt": "Banner Image: Wild at Heart (1990)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/Alamo-Drafthouse-Manhattan/Main.png",
+        "image": "/Media/Alamo-Drafthouse-Manhattan/Main.png",
         "image_alt": "Interior of an Alamo Drafthouse Manhattan Theater",
         "description": (
             "Latest addition to the Alamo Drafthouse family in NYC. "
@@ -389,9 +389,9 @@ theaters = {
     "Anthology-Film-Archives": {
         "id": "Anthology-Film-Archives",
         "name": "Anthology Film Archives",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/Anthology-Film-Archives/Banner.png",
+        "banner": "/Media/Anthology-Film-Archives/Banner.png",
         "banner_alt": "Banner Image: Nightshift (1981)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/Anthology-Film-Archives/Main.png",
+        "image": "/Media/Anthology-Film-Archives/Main.png",
         "image_alt": "Historic Photo of Interior Seating",
         "description": (
             "Center for preservation and exhibition of independent film. "
@@ -409,9 +409,9 @@ theaters = {
     "Stuart-Cinema": {
         "id": "Stuart-Cinema",
         "name": "Stuart Cafe & Cinema",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/Stuart-Cinema/Banner.png",
+        "banner": "/Media/Stuart-Cinema/Banner.png",
         "banner_alt": "Banner Image: Snow White (2025)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/Stuart-Cinema/Main.png",
+        "image": "/Media/Stuart-Cinema/Main.png",
         "image_alt": "Exterior of Stuart Cinema at night",
         "description": (
             "Community-focused independent cinema and cafe. "
@@ -429,9 +429,9 @@ theaters = {
     "Cobble-Hill-Cinema": {
         "id": "Cobble-Hill-Cinema",
         "name": "Cobble Hill Cinema",
-        "banner": "https://wnskim.github.io/TheaterBase-NYC/Media/Cobble-Hill-Cinema/Banner.png",
+        "banner": "/Media/Cobble-Hill-Cinema/Banner.png",
         "banner_alt": "Banner Image: The Lodger: A story of the London Fog (1927)",
-        "image": "https://wnskim.github.io/TheaterBase-NYC/Media/Cobble-Hill-Cinema/Main.png",
+        "image": "/Media/Cobble-Hill-Cinema/Main.png",
         "image_alt": "Exterior of Cobble Hill Cinemas",
         "description": (
             "Neighborhood movie theater serving Cobble Hill since 1963. "
