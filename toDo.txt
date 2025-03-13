@@ -1,0 +1,62 @@
+Search bar: mirror letterboxd.
+Remove "view details" button on cards
+
+categories:
+Food & Drink
+New Releases
+Foreign
+Indie
+Festival
+Classic Films
+Art House
+Reserved Seating
+Luxury Seating
+IMAX
+16mm
+35mm
+70mm
+Full Bar
+Student Discounts
+Special Events
+Q&A Events
+Repertory
+Dolby Atmos
+3D
+Historic Venue
+Rooftop Screenings
+
+
+http://127.0.0.1:5001/search?q=Q%26A+Events    want
+http://127.0.0.1:5001/search?q=Q&A%20Events    current
+
+
+
+visit website               nearby theaters
+image
+ticket prices
+address
+
+
+Alamo Drafthouse Brooklyn
+alamo drafthouse manhattan
+angelika cinema 123
+Angelika Film Center
+anthalogy film archives
+bam rose cinemas
+cinema village
+cobble hill cinema
+Film at Lincoln Center
+Film Forum
+
+IFC-Center
+Metrograph
+mouseum of the moving image
+Museum of MOdern art
+Nitehawk Cinema
+Nitehawk Prospect Park
+Quad Cinema
+Roxy Cinema
+stuart cinema
+syndicated
+The Paris Theater
+village east by angelika

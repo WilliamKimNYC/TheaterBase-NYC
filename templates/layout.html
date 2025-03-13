@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Favicon (optional) -->
+    <link rel="icon" href="data:," />
+
+    <!-- jQuery (optional, if you're using it elsewhere) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+
+    <!-- Your own stylesheet -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='main.css') }}"
+    />
+
+    <title>TheaterBase NYC</title>
+  </head>
+  <body>
+
+    <!-- Navbar (no .navbar-expand-lg) -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">TheaterBase <span style="color: red;">NYC</span></a>
+
+        <!-- Offcanvas Toggler Button -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasNavbar"
+          aria-controls="offcanvasNavbar"
+          aria-label="Toggle navigation"
+        >
+
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ms-auto">
+              <form id="searchForm" class="d-flex position-relative" action="{{ url_for('search') }}" method="GET">
+                <div class="search-wrapper">
+                  <input
+                    name="q"
+                    id="theaterSearch"
+                    class="form-control search-input"
+                    type="search"
+                    placeholder="Search theaters or tags"
+                    aria-label="Search"
+                  />
+                  <button class="btn search-btn" type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+      </div>
+    </nav>
+
+    <!-- Offcanvas (slides from right via .offcanvas-end) -->
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="offcanvasNavbar"
+      aria-labelledby="offcanvasNavbarLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">TheaterBase <span style="color: red;">NYC</span></h5>
+        <button
+          type="button"
+          class="btn-close text-reset"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <!-- Offcanvas nav links or content -->
+        <ul class="navbar-nav flex-grow-1 pe-3">
+          <li class="nav-item">    
+            <form id="searchForm" class="d-flex position-relative" action="{{ url_for('search') }}" method="GET">
+              <div class="search-wrapper">
+                <input
+                  name="q"
+                  id="theaterSearch"
+                  class="form-control search-input"
+                  type="search"
+                  placeholder="Search theaters or tags (e.g., Art House, Foreign)..."
+                  aria-label="Search"
+                />
+                <button class="btn search-btn" type="submit">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                  </svg>
+                </button>
+              </div>
+            </form>           
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <main>
+      <div class="container-xxl">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </main>
+
+    <!-- Bootstrap Bundle JS (includes Popper) -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      $(document).ready(function() {
+        // Handle both search forms
+        $("form[id='searchForm']").on("submit", function(event) {
+          // Get the current value of the search input, minus leading/trailing spaces
+          let query = $(this).find("#theaterSearch").val().trim();
+    
+          if (query === "") {
+            // Stop the form from submitting
+            event.preventDefault();
+    
+            // Clear the (already empty) text, just to be sure
+            $(this).find("#theaterSearch").val("");
+    
+            // Keep the focus in the search bar so the user can type again
+            $(this).find("#theaterSearch").focus();
+          }
+          // else: do nothing and let the form submit normally
+        });
+      });
+    </script>
+    
+  </body>
+  <footer>
+    <hr>
+    <p class="text-center">
+      William Kim | wnk2103@columbia.edu<br>
+      2025
+    </p>
+  </footer>
+</html>

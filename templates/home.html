@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+  <div class="view-content">
+    <div class="container-sm px-4">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+          <div class="main-details mt-4">
+            <h1 class="display-4 mb-4">Discover NYC's Art House Cinema Scene</h1>
+            <p class="lead mb-5">
+              Welcome to TheaterBase NYC, your guide to New York City's vibrant art house and independent cinema scene. For film lovers who seek more than just mainstream entertainment, we connect you with theaters showcasing rare screenings, foreign films, cult classics, and experimental cinema. From historic art houses to intimate indie venues, find the perfect setting for your next cinematic discovery.
+            </p>
+            <div class="row features-grid">
+              <div class="col-md-4 feature-item">
+                <div class="feature-content">
+                  <h5 class="mb-3">For Cinephiles</h5>
+                  <p>Explore repertory screenings, director retrospectives, and rare 35mm/70mm presentations at historic art houses and independent venues.</p>
+                </div>
+              </div>
+              <div class="col-md-4 feature-item">
+                <div class="feature-content">
+                  <h5 class="mb-3">For Foreign Film Fans</h5>
+                  <p>Discover international cinema, from contemporary masterpieces to restored classics, with original language screenings and subtitles.</p>
+                </div>
+              </div>
+              <div class="col-md-4 feature-item">
+                <div class="feature-content">
+                  <h5 class="mb-3">For Experimental Enthusiasts</h5>
+                  <p>Find avant-garde screenings, experimental cinema, and special events at venues dedicated to pushing the boundaries of film.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Featured Theaters Section -->
+  <div class="container-sm px-4 mt-5">
+    <h2 class="mb-4">Featured Theaters</h2>
+    <div class="row" id="featured-container"></div>
+  </div>
+
+  <!-- Initialize data from Flask -->
+  <script>
+    const featuredTheaters = {{ popular_theaters | tojson }};
+  </script>
+
+  <!-- Handle DOM manipulation -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById("featured-container");
+
+      featuredTheaters.forEach(theater => {
+        const cardDiv = document.createElement("div");
+        cardDiv.className = "col-md-4 mb-4";
+
+        cardDiv.innerHTML = `
+          <a href="/view/${encodeURIComponent(theater.id)}" class="text-decoration-none">
+            <div class="card h-100">
+              <div class="card-img-wrapper">
+                <img src="${theater.image}" class="card-img-top" alt="${theater.image_alt}">
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">${theater.name}</h5>
+                <div class="mb-3 d-flex flex-wrap gap-2">
+                  ${theater["types of movies"].map(tag => `<span class="theater-tag">${tag}</span>`).join(' ')}
+                </div>
+                <p class="card-text">${theater.description.slice(0, 80)}...</p>
+              </div>
+            </div>
+          </a>
+        `;
+
+        container.appendChild(cardDiv);
+      });
+    });
+  </script>
+{% endblock %}

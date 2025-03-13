@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+{% block content %}
+  <!-- Full-width Banner Image -->
+  <div class="banner-wrapper">
+    <img src="{{ theater.banner }}" alt="{{ theater.banner_alt }}" class="banner-image">
+  </div>
+  <!-- Medium-narrow container for main content -->
+  <div class="view-content">
+    <div class="container-sm px-4">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-11 col-xl-10">
+          <!-- Theater Name and Tags -->
+          <h1 class="mb-4">{{ theater.name }}</h1>
+
+          <!-- Two Column Layout -->
+          <div class="row theater-info">
+            <!-- Left Column: Main Image, Description and Website -->
+            <div class="col-md-8">
+              <div class="theater-details">
+                <div class="main-image-wrapper mb-4">
+                  <img src="{{ theater.image }}" alt="{{ theater.image_alt }}" class="img-fluid rounded">
+                </div>
+                <p>{{ theater.description }}</p>
+                <a href="{{ theater.website }}" target="_blank" class="btn btn-primary">Visit Website</a>
+              </div>
+
+              <!-- Info Box -->
+              <div class="theater-details">
+                <!-- Ticket Prices -->
+                <div class="mb-4">
+                  <h5>Ticket Prices</h5>
+                  <p class="mb-0">Regular: {{ theater["ticket price"] }} | Student: {{ theater["student ticket price"] }}</p>
+                </div>
+
+                <!-- Location -->
+                <div>
+                  <h5>Address</h5>
+                  <p>{{ theater.address }}</p>
+                  <div class="map-container mt-3">
+                    <iframe
+                      width="100%"
+                      style="border:0; aspect-ratio: 1/0.5;"
+                      frameborder="0"
+                      src="https://www.google.com/maps/embed/v1/place?key={{ maps_key }}&q={{ theater.address | urlencode }}&zoom=15"
+                      allowfullscreen>
+                    </iframe>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Types of Movies and Nearby Theaters -->
+            <div class="col-md-4">
+              <div class="theater-details">
+                <div class="mb-4">
+                  <h5>Tags</h5>
+                  <div class="d-flex flex-wrap gap-2 theater-tags">
+                    {% for type in theater["types of movies"] %}
+                      <button onclick="window.location.href='{{ url_for('search') }}?q={{ type }}'" class="theater-tag btn">{{ type }}</button>
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <div>
+                  <h5>Nearby Theaters</h5>
+                  <div class="nearby-theaters">
+                    {% for nearby in nearby_theaters %}
+                      <div class="nearby-theater-card mb-3 position-relative">
+                        <a href="{{ url_for('view_theater', theater_id=nearby.id) }}" class="text-white text-decoration-none d-block">
+                          <img src="{{ nearby.image }}" alt="{{ nearby.image_alt }}" class="w-100" style="border-radius: 4px;">
+                          <div class="position-absolute bottom-0 w-100 h-100" style="background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.8) 100%); border-radius: 4px;">
+                            <div class="position-absolute bottom-0 w-100 p-3">
+                              <span class="h5 mb-0">{{ nearby.name }}</span>
+                            </div>
+                          </div>
+                        </a>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+<!-- Add script at the end of the file -->
+<script>
+function searchTag(tag) {
+  window.location.href = `/search?q=${encodeURIComponent(tag)}`;
+}
+</script>

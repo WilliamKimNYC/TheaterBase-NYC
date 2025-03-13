@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+{% block content %}
+
+  <!-- Heading with the user's search term and result count -->
+  {% if results|length == 1 %}
+    <h2 class="my-4">Found 1 result for "{{ query }}"</h2>
+  {% else %}
+    <h2 class="my-4">Found {{ results|length }} results for "{{ query }}"</h2>
+  {% endif %}
+  
+
+  <!-- If we have results, we display them as cards in a grid. Otherwise, "No results found." -->
+  {% if results|length > 0 %}
+
+    <!-- Row to hold all the cards -->
+    <div class="row" id="search-results-container"></div>
+
+    <!-- Initialize data from Flask -->
+    <script>
+      const searchResults = {{ results | tojson | safe }};
+      const searchQuery = {{ query | tojson | safe }}.toLowerCase();
+    </script>
+
+    <!-- Handle DOM manipulation -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById("search-results-container");
+
+        searchResults.forEach(theater => {
+          // Create the column wrapper
+          const colDiv = document.createElement("div");
+          colDiv.className = "col-md-4 mb-4"; // 3 cards per row, margin bottom
+
+          // Highlight matching theater name
+          let displayName = theater.name;
+          if (theater.name.toLowerCase().includes(searchQuery)) {
+            const index = theater.name.toLowerCase().indexOf(searchQuery);
+            const matchText = theater.name.substring(index, index + searchQuery.length);
+            displayName = theater.name.replace(matchText, `<span class="search-match">${matchText}</span>`);
+          }
+
+          // Highlight matching tags
+          const tagsHtml = theater["types of movies"]
+            .map(tag => {
+              if (tag.toLowerCase().includes(searchQuery)) {
+                const index = tag.toLowerCase().indexOf(searchQuery);
+                const matchText = tag.substring(index, index + searchQuery.length);
+                return `<span class="theater-tag search-match">${tag}</span>`;
+              }
+              return `<span class="theater-tag">${tag}</span>`;
+            })
+            .join(' ');
+
+          // Build the card HTML
+          colDiv.innerHTML = `
+            <div class="card h-100">
+              <a href="/view/${encodeURIComponent(theater.id)}" class="text-decoration-none">
+                <div class="card-img-wrapper">
+                  <img src="${theater.image}" class="card-img-top" alt="${theater.image_alt}">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">${displayName}</h5>
+                  <div class="mb-3 d-flex flex-wrap gap-2">
+                    ${tagsHtml}
+                  </div>
+                  <p class="card-text">${theater.description.slice(0, 80)}...</p>
+                </div>
+              </a>
+            </div>
+          `;
+
+          // Append card to the row
+          container.appendChild(colDiv);
+        });
+      });
+    </script>
+
+  {% else %}
+    <p>No results found. Try searching for a theater name or a tag like "Art House", "Foreign", or "Food & Drink".</p>
+  {% endif %}
+
+{% endblock %}
+
+<!-- Add script at the end of the file -->
+<script>
+function searchTag(tag) {
+  // First encode everything properly, then replace encoded spaces (%20) with +
+  const encodedTag = encodeURIComponent(tag).replace(/%20/g, '+');
+  window.location.href = `/search?q=${encodedTag}`;
+}
+</script>
