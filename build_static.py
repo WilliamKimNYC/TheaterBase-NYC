@@ -2,6 +2,7 @@ from flask import Flask
 from flask_frozen import Freezer
 from server import app
 import os
+import sys
 
 # Create a new Flask app instance
 static_app = Flask(__name__)
@@ -24,6 +25,28 @@ def static_files():
         for file in files:
             yield {'path': os.path.join(root, file)}
 
+def ensure_directories():
+    """Ensure all necessary directories exist"""
+    directories = ['static_site', 'static_site/static', 'static_site/Media']
+    for directory in directories:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
 if __name__ == '__main__':
-    # Build the static site
-    freezer.freeze() 
+    try:
+        # Ensure directories exist
+        ensure_directories()
+        
+        # Build the static site
+        freezer.freeze()
+        
+        # Copy static files
+        if os.path.exists('static'):
+            os.system('cp -r static/* static_site/static/')
+        if os.path.exists('Media'):
+            os.system('cp -r Media/* static_site/Media/')
+            
+        print("Static site built successfully!")
+    except Exception as e:
+        print(f"Error building static site: {str(e)}", file=sys.stderr)
+        sys.exit(1) 
