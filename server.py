@@ -8,14 +8,9 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# Configuration
+# Configure the app with environment variables
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev')
-app.config['GOOGLE_MAPS_API_KEY'] = os.getenv('GOOGLE_MAPS_API_KEY', '')
-
-# Make config available to all templates
-@app.context_processor
-def inject_config():
-    return dict(config=app.config)
+app.config['GOOGLE_MAPS_API_KEY'] = os.getenv('GOOGLE_MAPS_API_KEY')
 
 theaters = {
     "Metrograph": {
@@ -501,7 +496,6 @@ def search():
     
     return render_template('search.html', query=query, results=matching)
 
-
 @app.route('/view/<theater_id>')
 def view_theater(theater_id):
     if theater_id not in theaters:
@@ -533,6 +527,12 @@ def add_theater():
             errors['address'] = 'Address is required'
         if not data.get('description', '').strip():
             errors['description'] = 'Description is required'
+        if not data.get('ticket_price', '').strip():
+            errors['ticket_price'] = 'Ticket price is required'
+        if not data.get('student_price', '').strip():
+            errors['student_price'] = 'Student price is required'
+        if not data.get('movie_types', '').strip():
+            errors['movie_types'] = 'At least one movie type is required'
             
         if errors:
             return jsonify({'success': False, 'errors': errors}), 400
@@ -542,16 +542,17 @@ def add_theater():
         if new_id in theaters:
             return jsonify({'success': False, 'errors': {'name': 'A theater with this name already exists'}}), 400
             
+        # Create new theater entry
         theaters[new_id] = {
             'id': new_id,
             'name': data['name'],
             'address': data['address'],
             'description': data['description'],
             'image': data.get('image', ''),
-            'ticket price': data.get('ticket_price', ''),
-            'student ticket price': data.get('student_price', ''),
-            'types of movies': data.get('movie_types', '').split(','),
-            'nearby theater ids': data.get('nearby_ids', '').split(','),
+            'ticket price': f"${data['ticket_price']}",
+            'student ticket price': f"${data['student_price']}",
+            'types of movies': [t.strip() for t in data['movie_types'].split(',')],
+            'nearby theater ids': [t.strip() for t in data.get('nearby_ids', '').split(',') if t.strip()],
             'website': data.get('website', '')
         }
         
@@ -571,10 +572,21 @@ def edit_theater(theater_id):
     if request.method == 'POST':
         data = request.get_json()
         
-        # Similar validation as add route
+        # Validate required fields
         errors = {}
         if not data.get('name', '').strip():
             errors['name'] = 'Name is required'
+        if not data.get('address', '').strip():
+            errors['address'] = 'Address is required'
+        if not data.get('description', '').strip():
+            errors['description'] = 'Description is required'
+        if not data.get('ticket_price', '').strip():
+            errors['ticket_price'] = 'Ticket price is required'
+        if not data.get('student_price', '').strip():
+            errors['student_price'] = 'Student price is required'
+        if not data.get('movie_types', '').strip():
+            errors['movie_types'] = 'At least one movie type is required'
+            
         if errors:
             return jsonify({'success': False, 'errors': errors}), 400
             
@@ -584,10 +596,10 @@ def edit_theater(theater_id):
             'address': data['address'],
             'description': data['description'],
             'image': data.get('image', theaters[theater_id]['image']),
-            'ticket price': data.get('ticket_price', theaters[theater_id]['ticket price']),
-            'student ticket price': data.get('student_price', theaters[theater_id]['student ticket price']),
-            'types of movies': data.get('movie_types', '').split(','),
-            'nearby theater ids': data.get('nearby_ids', '').split(','),
+            'ticket price': f"${data['ticket_price']}",
+            'student ticket price': f"${data['student_price']}",
+            'types of movies': [t.strip() for t in data['movie_types'].split(',')],
+            'nearby theater ids': [t.strip() for t in data.get('nearby_ids', '').split(',') if t.strip()],
             'website': data.get('website', theaters[theater_id]['website'])
         })
         
