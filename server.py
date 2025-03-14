@@ -1,16 +1,22 @@
 # William Kim WNK2103
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-import os
+import random
+from flask_frozen import Freezer
 from dotenv import load_dotenv
+import os
+import json
 
 # Load environment variables
 load_dotenv()
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-secret-key')
+app.config['GOOGLE_MAPS_API_KEY'] = os.getenv('GOOGLE_MAPS_API_KEY', '')
 
-# Configure the app with environment variables
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev')
-app.config['GOOGLE_MAPS_API_KEY'] = os.getenv('GOOGLE_MAPS_API_KEY')
+# Make configuration available to all templates
+@app.context_processor
+def inject_config():
+    return dict(config=app.config)
 
 theaters = {
     "Metrograph": {
@@ -29,7 +35,7 @@ theaters = {
         "address": "7 Ludlow St, New York, NY 10002",
         "ticket price": "$17",
         "student ticket price": "$15",
-        "types of movies": ["Art House", "Classic Films", "Foreign", "Repertory", "Food & Drink", "Historic Venue"],
+        "types of movies": ["Art House", "Classic Films", "Foreign", "Repertory", "Food and Drink", "Historic Venue"],
         "nearby theater ids": ["Angelika-Film-Center", "IFC-Center", "Anthology-Film-Archives"],
         "website": "https://metrograph.com/"
     },
@@ -463,10 +469,10 @@ def home():
     but we'll send them from Python to Jinja as well.
     """
     # Select specific theaters for the featured section
-    featured_ids = ["Metrograph", "Film-Forum", "IFC-Center"]
+    featured_ids = ["Metrograph", "Quad-Cinema", "IFC-Center"]
     popular_theaters = [theaters[t_id] for t_id in featured_ids]
 
-    return render_template('home.html', popular_theaters=popular_theaters)
+    return render_template('index.html', popular_theaters=popular_theaters)
 
 @app.route('/search')
 def search():
@@ -484,6 +490,11 @@ def search():
             matching.append(theater_data)
             continue
             
+        # Check if query matches theater address
+        if query_lower in theater_data["address"].lower():
+            matching.append(theater_data)
+            continue
+            
         # Check if query matches any of the theater's tags
         for tag in theater_data["types of movies"]:
             tag_lower = tag.lower()
@@ -495,6 +506,7 @@ def search():
                 break
     
     return render_template('search.html', query=query, results=matching)
+
 
 @app.route('/view/<theater_id>')
 def view_theater(theater_id):
@@ -516,96 +528,163 @@ def view_theater(theater_id):
 @app.route('/add', methods=['GET', 'POST'])
 def add_theater():
     if request.method == 'POST':
-        # Handle AJAX submission
-        data = request.get_json()
-        
-        # Validate required fields
-        errors = {}
-        if not data.get('name', '').strip():
-            errors['name'] = 'Name is required'
-        if not data.get('address', '').strip():
-            errors['address'] = 'Address is required'
-        if not data.get('description', '').strip():
-            errors['description'] = 'Description is required'
-        if not data.get('ticket_price', '').strip():
-            errors['ticket_price'] = 'Ticket price is required'
-        if not data.get('student_price', '').strip():
-            errors['student_price'] = 'Student price is required'
-        if not data.get('movie_types', '').strip():
-            errors['movie_types'] = 'At least one movie type is required'
+        try:
+            data = request.get_json()
+            if not data:
+                return jsonify({'success': False, 'errors': {'general': 'Invalid JSON data'}}), 400
             
-        if errors:
-            return jsonify({'success': False, 'errors': errors}), 400
+            # Validate data
+            errors = validate_theater_data(data)
+            if errors:
+                return jsonify({'success': False, 'errors': errors}), 400
+                
+            # Generate new ID from name
+            new_id = data['name'].replace(' ', '-')
+            if new_id in theaters:
+                return jsonify({'success': False, 'errors': {'name': 'A theater with this name already exists'}}), 400
             
-        # Generate new ID from name
-        new_id = data['name'].replace(' ', '-')
-        if new_id in theaters:
-            return jsonify({'success': False, 'errors': {'name': 'A theater with this name already exists'}}), 400
+            # Get random nearby theaters
+            existing_theater_ids = list(theaters.keys())
+            num_nearby = random.randint(2, 4)
+            nearby_ids = random.sample(existing_theater_ids, num_nearby)
             
-        # Create new theater entry
-        theaters[new_id] = {
-            'id': new_id,
-            'name': data['name'],
-            'address': data['address'],
-            'description': data['description'],
-            'image': data.get('image', ''),
-            'ticket price': f"${data['ticket_price']}",
-            'student ticket price': f"${data['student_price']}",
-            'types of movies': [t.strip() for t in data['movie_types'].split(',')],
-            'nearby theater ids': [t.strip() for t in data.get('nearby_ids', '').split(',') if t.strip()],
-            'website': data.get('website', '')
-        }
-        
-        return jsonify({
-            'success': True,
-            'id': new_id,
-            'message': 'Theater added successfully'
-        })
-        
+            theaters[new_id] = {
+                'id': new_id,
+                'name': data['name'].strip(),
+                'address': data['address'].strip(),
+                'description': data['description'].strip(),
+                'image': data['image'].strip(),
+                'image_alt': f"Interior or exterior of {data['name']}",
+                'banner': data['banner'].strip(),
+                'banner_alt': f"Banner image of {data['name']}", 
+                'ticket price': f"${float(data['ticket_price']):.2f}",
+                'student ticket price': f"${float(data['student_price']):.2f}",
+                'types of movies': [t.strip() for t in data['movie_types'].split(',') if t.strip()],
+                'nearby theater ids': nearby_ids,
+                'website': data.get('website', '').strip()
+            }
+            
+            # Update nearby theaters
+            for nearby_id in nearby_ids:
+                if len(theaters[nearby_id]['nearby theater ids']) < 4:
+                    theaters[nearby_id]['nearby theater ids'].append(new_id)
+            
+            return jsonify({
+                'success': True,
+                'id': new_id,
+                'message': 'Theater added successfully'
+            })
+            
+        except Exception as e:
+            return jsonify({'success': False, 'errors': {'general': str(e)}}), 500
+            
     return render_template('add.html')
 
 @app.route('/edit/<theater_id>', methods=['GET', 'POST'])
 def edit_theater(theater_id):
     if theater_id not in theaters:
-        return "Theater not found", 404
+        return jsonify({'errors': {'general': 'Theater not found'}}), 404
+
+    if request.method == 'GET':
+        return render_template('edit.html', theater=theaters[theater_id], theater_id=theater_id)
+
+    # POST method handling
+    data = request.get_json()
+    errors = validate_theater_data(data, theater_id)
+    if errors:
+        return jsonify({'errors': errors}), 400
+
+    current_theater = theaters[theater_id]
+    
+    # Only update nearby theaters if address has changed
+    if data['address'].strip() != current_theater['address']:
+        # Remove this theater from other theaters' nearby lists
+        for other_id, other_theater in theaters.items():
+            if theater_id in other_theater['nearby theater ids']:
+                other_theater['nearby theater ids'].remove(theater_id)
         
-    if request.method == 'POST':
-        data = request.get_json()
+        # Generate new nearby theaters
+        nearby_ids = random.sample([tid for tid in theaters.keys() if tid != theater_id], 
+                                 random.randint(2, 4))
         
-        # Validate required fields
-        errors = {}
-        if not data.get('name', '').strip():
-            errors['name'] = 'Name is required'
-        if not data.get('address', '').strip():
-            errors['address'] = 'Address is required'
-        if not data.get('description', '').strip():
-            errors['description'] = 'Description is required'
-        if not data.get('ticket_price', '').strip():
-            errors['ticket_price'] = 'Ticket price is required'
-        if not data.get('student_price', '').strip():
-            errors['student_price'] = 'Student price is required'
-        if not data.get('movie_types', '').strip():
-            errors['movie_types'] = 'At least one movie type is required'
-            
-        if errors:
-            return jsonify({'success': False, 'errors': errors}), 400
-            
-        # Update theater data
-        theaters[theater_id].update({
-            'name': data['name'],
-            'address': data['address'],
-            'description': data['description'],
-            'image': data.get('image', theaters[theater_id]['image']),
-            'ticket price': f"${data['ticket_price']}",
-            'student ticket price': f"${data['student_price']}",
-            'types of movies': [t.strip() for t in data['movie_types'].split(',')],
-            'nearby theater ids': [t.strip() for t in data.get('nearby_ids', '').split(',') if t.strip()],
-            'website': data.get('website', theaters[theater_id]['website'])
-        })
-        
-        return jsonify({'success': True, 'message': 'Theater updated successfully'})
-        
-    return render_template('edit.html', theater=theaters[theater_id])
+        # Add this theater to the nearby theaters' lists
+        for nearby_id in nearby_ids:
+            theaters[nearby_id]['nearby theater ids'].append(theater_id)
+    else:
+        # Keep existing nearby theaters
+        nearby_ids = current_theater['nearby theater ids']
+
+    # Update theater data
+    theaters[theater_id].update({
+        'name': data['name'].strip(),
+        'address': data['address'].strip(),
+        'description': data['description'].strip(),
+        'image': data['image'].strip(),
+        'banner': data['banner'].strip(),
+        'ticket price': f"${data['ticket_price'].strip()}",
+        'student ticket price': f"${data['student_price'].strip()}",
+        'types of movies': [t.strip() for t in data['movie_types'].split(',')],
+        'website': data['website'].strip(),
+        'nearby theater ids': nearby_ids
+    })
+
+    return jsonify({'message': 'Theater updated successfully'})
+
+def validate_theater_data(data, theater_id=None):
+    errors = {}
+    
+    # Required fields validation
+    required_fields = {
+        'name': 'Name is required',
+        'address': 'Address is required',
+        'description': 'Description is required',
+        'image': 'Theater image is required',
+        'banner': 'Banner image is required',
+        'ticket_price': 'Regular ticket price is required',
+        'student_price': 'Student ticket price is required',
+        'movie_types': 'At least one movie type is required'
+    }
+    
+    for field, message in required_fields.items():
+        if not data.get(field, '').strip():
+            errors[field] = message
+    
+    # Price validation
+    for price_field in ['ticket_price', 'student_price']:
+        if price_field in data and data[price_field].strip():
+            price = data[price_field].strip()
+            try:
+                # Check if it's a valid decimal number
+                float_price = float(price)
+                if float_price < 0:
+                    errors[price_field] = 'Price cannot be negative'
+            except ValueError:
+                errors[price_field] = 'Please enter a valid price (e.g., 15.00)'
+    
+    # URL validation
+    for url_field in ['image', 'banner']:
+        if url_field in data and data[url_field].strip():
+            url = data[url_field].strip()
+            if not (url.startswith('http://') or url.startswith('https://')):
+                errors[url_field] = 'Please enter a valid URL starting with http:// or https://'
+    
+    # Movie types validation
+    if 'movie_types' in data and data['movie_types'].strip():
+        types = [t.strip() for t in data['movie_types'].split(',')]
+        if not types:
+            errors['movie_types'] = 'Please enter at least one movie type'
+        elif any(not t for t in types):
+            errors['movie_types'] = 'Invalid movie type format'
+    
+    return errors
+
+@app.route('/explore')
+def explore():
+    """
+    Route that displays all theaters in a grid layout.
+    """
+    all_theaters = list(theaters.values())
+    return render_template('explore.html', theaters=all_theaters)
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)

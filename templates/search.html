@@ -3,9 +3,9 @@
 
   <!-- Heading with the user's search term and result count -->
   {% if results|length == 1 %}
-    <h2 class="my-4">Found 1 result for "{{ query }}"</h2>
+    <h2 class="my-4">Showing 1 result for "{{ query }}"</h2>
   {% else %}
-    <h2 class="my-4">Found {{ results|length }} results for "{{ query }}"</h2>
+    <h2 class="my-4">Showing {{ results|length }} results for "{{ query }}"</h2>
   {% endif %}
   
 
@@ -39,6 +39,14 @@
             displayName = theater.name.replace(matchText, `<span class="search-match">${matchText}</span>`);
           }
 
+          // Highlight matching address
+          let displayAddress = theater.address;
+          if (theater.address.toLowerCase().includes(searchQuery)) {
+            const index = theater.address.toLowerCase().indexOf(searchQuery);
+            const matchText = theater.address.substring(index, index + searchQuery.length);
+            displayAddress = theater.address.replace(matchText, `<span class="search-match">${matchText}</span>`);
+          }
+
           // Highlight matching tags
           const tagsHtml = theater["types of movies"]
             .map(tag => {
@@ -60,6 +68,7 @@
                 </div>
                 <div class="card-body">
                   <h5 class="card-title">${displayName}</h5>
+                  <p class="card-text text-muted small">${displayAddress}</p>
                   <div class="mb-3 d-flex flex-wrap gap-2">
                     ${tagsHtml}
                   </div>
@@ -76,7 +85,7 @@
     </script>
 
   {% else %}
-    <p>No results found. Try searching for a theater name or a tag like "Art House", "Foreign", or "Food & Drink".</p>
+    <p>No results found. Try searching for a theater name or a tag like "Art House", "Foreign", or "Food and Drink".</p>
   {% endif %}
 
 {% endblock %}

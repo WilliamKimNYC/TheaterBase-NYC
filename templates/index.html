@@ -65,6 +65,7 @@
               </div>
               <div class="card-body">
                 <h5 class="card-title">${theater.name}</h5>
+                <p class="card-text text-muted small">${theater.address}</p>
                 <div class="mb-3 d-flex flex-wrap gap-2">
                   ${theater["types of movies"].map(tag => `<span class="theater-tag">${tag}</span>`).join(' ')}
                 </div>

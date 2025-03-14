@@ -1,175 +1,178 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container mt-4">
-    <h2>Edit Theater: {{ theater.name }}</h2>
-    <form id="edit-theater-form" class="needs-validation" novalidate>
+<div class="container-sm px-4">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+      <h1 class="mb-4">Edit {{ theater.name }}</h1>
+      
+      <form id="editTheaterForm">
         <div class="mb-3">
-            <label for="name" class="form-label">Theater Name*</label>
-            <input type="text" class="form-control" id="name" name="name" value="{{ theater.name }}" required>
-            <div class="invalid-feedback">Please enter a theater name.</div>
+          <label for="name" class="form-label">Theater Name</label>
+          <input type="text" class="form-control" id="name" name="name" value="{{ theater.name }}" required>
+          <div class="invalid-feedback"></div>
         </div>
 
         <div class="mb-3">
-            <label for="address" class="form-label">Address*</label>
-            <input type="text" class="form-control" id="address" name="address" value="{{ theater.address }}" required>
-            <div class="invalid-feedback">Please enter an address.</div>
+          <label for="address" class="form-label">Address</label>
+          <input type="text" class="form-control" id="address" name="address" value="{{ theater.address }}" required>
+          <div class="invalid-feedback"></div>
         </div>
 
         <div class="mb-3">
-            <label for="description" class="form-label">Description*</label>
-            <textarea class="form-control" id="description" name="description" rows="4" required>{{ theater.description }}</textarea>
-            <div class="invalid-feedback">Please enter a description.</div>
+          <label for="description" class="form-label">Description</label>
+          <textarea class="form-control" id="description" name="description" rows="4" required>{{ theater.description }}</textarea>
+          <div class="invalid-feedback"></div>
         </div>
 
         <div class="mb-3">
-            <label for="image" class="form-label">Image URL</label>
-            <input type="url" class="form-control" id="image" name="image" value="{{ theater.image }}">
-            <div class="invalid-feedback">Please enter a valid URL.</div>
+          <label for="image" class="form-label">Theater Image</label>
+          <input type="text" class="form-control" id="image" name="image" value="{{ theater.image }}" required>
+          <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="mb-3">
+          <label for="banner" class="form-label">Banner Image</label>
+          <input type="text" class="form-control" id="banner" name="banner" value="{{ theater.banner }}" required>
+          <div class="invalid-feedback"></div>
         </div>
 
         <div class="row">
-            <div class="col-md-6 mb-3">
-                <label for="ticket_price" class="form-label">Regular Ticket Price*</label>
-                <div class="input-group">
-                    <span class="input-group-text">$</span>
-                    <input type="number" class="form-control" id="ticket_price" name="ticket_price" 
-                           value="{{ theater['ticket price'].replace('$', '') }}" min="0" required>
-                    <div class="invalid-feedback">Please enter a valid ticket price.</div>
-                </div>
-            </div>
+          <div class="col-md-6 mb-3">
+            <label for="ticket_price" class="form-label">Regular Ticket Price</label>
+            <input type="text" 
+                   class="form-control" 
+                   id="ticket_price" 
+                   name="ticket_price" 
+                   value="{{ theater['ticket price'].replace('$', '') }}" 
+                   required>
+            <div class="invalid-feedback"></div>
+          </div>
 
-            <div class="col-md-6 mb-3">
-                <label for="student_price" class="form-label">Student Ticket Price*</label>
-                <div class="input-group">
-                    <span class="input-group-text">$</span>
-                    <input type="number" class="form-control" id="student_price" name="student_price" 
-                           value="{{ theater['student ticket price'].replace('$', '') }}" min="0" required>
-                    <div class="invalid-feedback">Please enter a valid student ticket price.</div>
-                </div>
-            </div>
+          <div class="col-md-6 mb-3">
+            <label for="student_price" class="form-label">Student Ticket Price</label>
+            <input type="text" 
+                   class="form-control" 
+                   id="student_price" 
+                   name="student_price" 
+                   value="{{ theater['student ticket price'].replace('$', '') }}" 
+                   required>
+            <div class="invalid-feedback"></div>
+          </div>
         </div>
 
         <div class="mb-3">
-            <label for="movie_types" class="form-label">Types of Movies (comma-separated)*</label>
-            <input type="text" class="form-control" id="movie_types" name="movie_types" 
-                   value="{{ theater['types of movies']|join(', ') }}" required>
-            <div class="invalid-feedback">Please enter at least one movie type.</div>
-            <small class="form-text text-muted">Example: Art House, Classic Films, Foreign</small>
+          <label for="movie_types" class="form-label">Types of Movies (comma-separated)</label>
+          <input type="text" 
+                 class="form-control" 
+                 id="movie_types" 
+                 name="movie_types" 
+                 value="{{ theater['types of movies']|join(', ') }}" 
+                 required>
+          <div class="invalid-feedback"></div>
         </div>
 
         <div class="mb-3">
-            <label for="nearby_ids" class="form-label">Nearby Theater IDs (comma-separated)</label>
-            <input type="text" class="form-control" id="nearby_ids" name="nearby_ids" 
-                   value="{{ theater['nearby theater ids']|join(', ') }}">
-            <small class="form-text text-muted">Example: Film-Forum, IFC-Center</small>
-        </div>
-
-        <div class="mb-3">
-            <label for="website" class="form-label">Website URL</label>
-            <input type="url" class="form-control" id="website" name="website" value="{{ theater.website }}">
-            <div class="invalid-feedback">Please enter a valid URL.</div>
+          <label for="website" class="form-label">Website URL</label>
+          <input type="text" class="form-control" id="website" name="website" value="{{ theater.website }}">
+          <div class="invalid-feedback"></div>
         </div>
 
         <div class="d-flex gap-2">
-            <button type="submit" class="btn btn-primary">Save Changes</button>
-            <button type="button" class="btn btn-secondary" id="discard-btn">Discard Changes</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+          <button type="button" class="btn btn-secondary" id="discardBtn">Discard Changes</button>
         </div>
-    </form>
+      </form>
+    </div>
+  </div>
 </div>
 
 <!-- Confirmation Dialog -->
 <div class="modal fade" id="confirmDialog" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Confirm Discard Changes</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to discard your changes? This action cannot be undone.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keep Editing</button>
-                <button type="button" class="btn btn-danger" id="confirm-discard">Yes, Discard Changes</button>
-            </div>
-        </div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Discard Changes?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to discard your changes? This cannot be undone.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keep Editing</button>
+        <button type="button" class="btn btn-danger" id="confirmDiscard">Yes, Discard</button>
+      </div>
     </div>
+  </div>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('edit-theater-form');
-    const discardBtn = document.getElementById('discard-btn');
-    const confirmDialog = new bootstrap.Modal(document.getElementById('confirmDialog'));
-    const confirmDiscardBtn = document.getElementById('confirm-discard');
+// Get the theater ID from the URL
+const pathParts = window.location.pathname.split('/');
+const theaterId = pathParts[pathParts.length - 1];
 
-    // Handle form submission
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Reset custom validity
-        form.querySelectorAll('input, textarea').forEach(input => {
-            input.setCustomValidity('');
-        });
+// Initialize the modal when the document loads
+let confirmDialog;
+document.addEventListener('DOMContentLoaded', () => {
+  confirmDialog = new bootstrap.Modal(document.getElementById('confirmDialog'));
+});
 
-        if (!form.checkValidity()) {
-            e.stopPropagation();
-            form.classList.add('was-validated');
-            return;
+// Form submission handler
+document.getElementById('editTheaterForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const formData = {
+    name: document.getElementById('name').value.trim(),
+    address: document.getElementById('address').value.trim(),
+    description: document.getElementById('description').value.trim(),
+    image: document.getElementById('image').value.trim(),
+    banner: document.getElementById('banner').value.trim(),
+    ticket_price: document.getElementById('ticket_price').value.trim(),
+    student_price: document.getElementById('student_price').value.trim(),
+    movie_types: document.getElementById('movie_types').value.trim(),
+    website: document.getElementById('website').value.trim()
+  };
+
+  try {
+    const response = await fetch(`/edit/${theaterId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await response.json();
+    
+    if (response.ok) {
+      window.location.href = `/view/${theaterId}`;
+    } else {
+      // Clear previous errors
+      document.querySelectorAll('.is-invalid').forEach(el => {
+        el.classList.remove('is-invalid');
+      });
+      
+      // Show new errors
+      Object.entries(data.errors).forEach(([field, message]) => {
+        const input = document.getElementById(field);
+        if (input) {
+          input.classList.add('is-invalid');
+          input.nextElementSibling.textContent = message;
         }
+      });
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+});
 
-        // Prepare the data
-        const formData = {
-            name: document.getElementById('name').value.trim(),
-            address: document.getElementById('address').value.trim(),
-            description: document.getElementById('description').value.trim(),
-            image: document.getElementById('image').value.trim(),
-            ticket_price: document.getElementById('ticket_price').value.trim(),
-            student_price: document.getElementById('student_price').value.trim(),
-            movie_types: document.getElementById('movie_types').value.trim(),
-            nearby_ids: document.getElementById('nearby_ids').value.trim(),
-            website: document.getElementById('website').value.trim()
-        };
+// Discard changes functionality
+document.getElementById('discardBtn').addEventListener('click', () => {
+  confirmDialog.show();
+});
 
-        // Send the data
-        fetch(window.location.pathname, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Redirect to view page
-                window.location.href = `/view/{{ theater.id }}`;
-            } else {
-                // Handle validation errors
-                Object.entries(data.errors).forEach(([field, message]) => {
-                    const input = document.getElementById(field);
-                    if (input) {
-                        input.setCustomValidity(message);
-                        input.reportValidity();
-                    }
-                });
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred while saving changes. Please try again.');
-        });
-    });
-
-    // Handle discard button
-    discardBtn.addEventListener('click', function() {
-        confirmDialog.show();
-    });
-
-    // Handle confirm discard
-    confirmDiscardBtn.addEventListener('click', function() {
-        window.location.href = `/view/{{ theater.id }}`;
-    });
+document.getElementById('confirmDiscard').addEventListener('click', () => {
+  window.location.href = `/view/${theaterId}`;
+  confirmDialog.hide();
 });
 </script>
 {% endblock %} 
