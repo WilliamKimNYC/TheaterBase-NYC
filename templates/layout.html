@@ -46,11 +46,10 @@
           aria-controls="offcanvasNavbar"
           aria-label="Toggle navigation"
         >
-
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav ms-auto">
+            <div class="navbar-nav ms-auto align-items-center">
               <!-- Buttons -->
               <div class="d-flex align-items-center me-3 gap-2">
                 <a href="{{ url_for('add_theater') }}" class="btn btn-primary">
@@ -109,8 +108,8 @@
         <!-- Offcanvas nav links or content -->
         <ul class="navbar-nav flex-grow-1 pe-3">
           <li class="nav-item">    
-            <form id="searchForm" class="d-flex position-relative" action="{{ url_for('search') }}" method="GET">
-              <div class="search-wrapper">
+            <form id="searchFormOff" class="d-flex position-relative" action="{{ url_for('search') }}" method="GET">
+              <div id="search-wrapper" class="search-wrapper">
                 <input
                   name="q"
                   id="theaterSearch"
