@@ -1,9 +1,22 @@
 # William Kim WNK2103
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 import random
+from flask_frozen import Freezer
+from dotenv import load_dotenv
+import os
+import json
 
+# Load environment variables
+load_dotenv()
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-secret-key')
+app.config['GOOGLE_MAPS_API_KEY'] = os.getenv('GOOGLE_MAPS_API_KEY', '')
+
+# Make configuration available to all templates
+@app.context_processor
+def inject_config():
+    return dict(config=app.config)
 
 theaters = {
     "Metrograph": {
@@ -459,7 +472,7 @@ def home():
     featured_ids = ["Metrograph", "Quad-Cinema", "IFC-Center"]
     popular_theaters = [theaters[t_id] for t_id in featured_ids]
 
-    return render_template('home.html', popular_theaters=popular_theaters)
+    return render_template('index.html', popular_theaters=popular_theaters)
 
 @app.route('/search')
 def search():
