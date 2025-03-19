@@ -1,34 +1,30 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container-sm px-4">
-  <div class="row justify-content-center">
-    <div class="col-12">
-      <h1 class="display-4 mb-4">All Theaters</h1>
-      
-      <!-- Theater Grid -->
-      <div class="row" id="theaters-grid">
-        {% for theater in theaters %}
-        <div class="col-md-4 mb-4">
-          <a href="{{ url_for('view_theater', theater_id=theater.id) }}" class="text-decoration-none">
-            <div class="card h-100">
-              <div class="card-img-wrapper">
-                <img src="{{ theater.image }}" class="card-img-top" alt="{{ theater.image_alt }}">
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">{{ theater.name }}</h5>
-                <div class="mb-3 d-flex flex-wrap gap-2">
-                  {% for type in theater["types of movies"] %}
-                    <span class="theater-tag">{{ type }}</span>
-                  {% endfor %}
-                </div>
-                <p class="card-text">{{ theater.description[:80] }}...</p>
-              </div>
+  <!-- Heading -->
+  <h2 class="my-4">All Theaters</h2>
+
+  <!-- Theater Grid -->
+  <div class="row" id="theaters-grid">
+    {% for theater in theaters %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <a href="{{ url_for('view_theater', theater_id=theater.id) }}" class="text-decoration-none">
+          <div class="card-img-wrapper">
+            <img src="{{ theater.image }}" class="card-img-top" alt="{{ theater.image_alt }}">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{ theater.name }}</h5>
+            <p class="card-text text-muted small">{{ theater.address }}</p>
+            <div class="mb-3 d-flex flex-wrap gap-2">
+              {% for type in theater["types of movies"] %}
+                <span class="theater-tag">{{ type }}</span>
+              {% endfor %}
             </div>
-          </a>
-        </div>
-        {% endfor %}
+            <p class="card-text">{{ theater.description[:80] }}...</p>
+          </div>
+        </a>
       </div>
     </div>
+    {% endfor %}
   </div>
-</div>
 {% endblock %} 
