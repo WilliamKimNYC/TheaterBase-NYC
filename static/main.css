@@ -654,3 +654,39 @@ body.offcanvas-open {
     border-color: #8B0000;
 }
 
+
+
+#searchForm {
+    margin-bottom: 1rem;
+}
+
+/* Offcanvas button styles */
+
+
+.offcanvas .btn-primary {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--main-color);
+}
+
+.offcanvas .btn-primary:hover {
+    background-color: #8B0000;
+    border-color: #8B0000;
+    transform: translateX(5px);
+}
+
+.offcanvas .btn-light {
+    background-color: var(--card-bg);
+    border-color: var(--light-gray);
+    color: var(--main-color);
+}
+
+.offcanvas .btn-light:hover {
+    background-color: var(--light-gray);
+    border-color: var(--light-gray);
+    transform: translateX(5px);
+}
+
+.offcanvas .btn svg {
+    margin-right: 0.5rem;
+}
