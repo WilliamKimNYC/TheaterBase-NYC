@@ -1,9 +1,23 @@
 # William Kim WNK2103
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 import random
+from flask_frozen import Freezer
+from dotenv import load_dotenv
+import os
+import json
 
+# Load environment variables - only in development
+if os.path.exists('.env'):
+    load_dotenv()
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default-secret-key')
+app.config['GOOGLE_MAPS_API_KEY'] = os.environ.get('GOOGLE_MAPS_API_KEY', '')
+
+# Make configuration available to all templates
+@app.context_processor
+def inject_config():
+    return dict(config=app.config)
 
 theaters = {
     "Metrograph": {
